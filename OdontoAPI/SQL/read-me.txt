@@ -1,0 +1,5 @@
+Backup do banco de dados:
+db_odonto
+
+* Importe o banco de dados para trabalhar com ele.
+* O banco de dados já vem com um insert de dentista.
