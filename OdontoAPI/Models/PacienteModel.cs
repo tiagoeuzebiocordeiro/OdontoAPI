@@ -27,11 +27,9 @@ namespace OdontoAPI.Models
         public string Telefone { get; set; }
 
         [Required(ErrorMessage ="O e-mail do paciente deve ser informado.",AllowEmptyStrings =false)]
-        [RegularExpression(".+\\@.+\\..+", ErrorMessage = "Informe um e-mail válido.")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "O sexo do(a) paciente deve ser informado.", AllowEmptyStrings = false)]
-        [StringLength(1)]
         public char Sexo { get; set; }
         
         [Required]
