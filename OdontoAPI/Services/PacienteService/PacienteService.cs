@@ -50,6 +50,10 @@ namespace OdontoAPI.Services.PacienteService
                 _context.Pacientes.Remove(paciente);
                 await _context.SaveChangesAsync();
                 serviceResponse.Dados = _context.Pacientes.ToList();
+                if (serviceResponse.Dados.Count == 0)
+                {
+                    serviceResponse.Mensagem = "Você deletou com sucesso o único dado que o banco de dados tinha!";
+                }
             } catch (Exception ex)
             {
                 serviceResponse.Mensagem = ex.Message;
