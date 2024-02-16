@@ -113,6 +113,7 @@ namespace OdontoAPI.Services.PacienteService
                     serviceResponse.Mensagem = "Paciente não localizado com o Id informado!";
                     serviceResponse.Sucesso = false;
                 }
+                paciente.Status = false;
                 _context.Pacientes.Update(paciente);
                 await _context.SaveChangesAsync();
                 serviceResponse.Dados = _context.Pacientes.ToList();
@@ -136,7 +137,7 @@ namespace OdontoAPI.Services.PacienteService
                     serviceResponse.Mensagem = "Paciente não foi encontrado com o Id informado!";
                     serviceResponse.Sucesso = false;
                 }
-                _context.Pacientes.Update(paciente);
+                _context.Pacientes.Update(pacienteEditado);
                 await _context.SaveChangesAsync();
                 serviceResponse.Dados = _context.Pacientes.ToList();
             } catch (Exception ex)
