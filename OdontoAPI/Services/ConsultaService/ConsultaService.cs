@@ -36,6 +36,48 @@ namespace OdontoAPI.Services.ConsultaService
             return serviceResponse;
         }
 
+        public async Task<ServiceResponse<List<ConsultaModel>>> DeleteConsulta(short id)
+        {
+            ServiceResponse<List<ConsultaModel>> serviceResponse = new ServiceResponse<List<ConsultaModel>>();
+            try
+            {
+                ConsultaModel consulta = _context.Consultas.FirstOrDefault(x => x.Id == id);
+                if (consulta == null)
+                {
+                    serviceResponse.Mensagem = "Id inválido para deleção de consulta!";
+                    serviceResponse.Sucesso = false;
+                }
+                _context.Consultas.Remove(consulta); 
+                await _context.SaveChangesAsync();
+                serviceResponse.Dados = _context.Consultas.ToList();
+            } catch (Exception ex)
+            {
+                serviceResponse.Mensagem = ex.Message; 
+                serviceResponse.Sucesso = false;
+            }
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<ConsultaModel>> GetConsultaById(short id)
+        {
+            ServiceResponse<ConsultaModel> serviceResponse = new ServiceResponse<ConsultaModel>();
+            try
+            {
+                ConsultaModel consulta = _context.Consultas.FirstOrDefault(x => x.Id == id);
+                if (consulta == null)
+                {
+                    serviceResponse.Mensagem = "Não foi possível localizar uma consulta com o Id Informado.";
+                    serviceResponse.Sucesso = false;
+                }
+                serviceResponse.Dados = consulta;
+            } catch (Exception ex)
+            {
+                serviceResponse.Mensagem = ex.Message; 
+                serviceResponse.Sucesso = false;
+            }
+            return serviceResponse;
+        }
+
         public async Task<ServiceResponse<List<ConsultaModel>>> GetConsultas()
         {
             ServiceResponse<List<ConsultaModel>> serviceResponse = new ServiceResponse<List<ConsultaModel>>();
@@ -49,6 +91,29 @@ namespace OdontoAPI.Services.ConsultaService
                     serviceResponse.Sucesso = false;
                 }
 
+            } catch (Exception ex)
+            {
+                serviceResponse.Mensagem = ex.Message;
+                serviceResponse.Sucesso = false;
+            }
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<List<ConsultaModel>>> UpdateConsulta(ConsultaModel consultaEditada)
+        {
+            ServiceResponse<List<ConsultaModel>> serviceResponse = new ServiceResponse<List<ConsultaModel>>();
+            try
+            {
+                ConsultaModel consulta = _context.Consultas.AsNoTracking().FirstOrDefault(x => x.Id == consultaEditada.Id);
+                if (consulta == null)
+                {
+                    serviceResponse.Dados = null;
+                    serviceResponse.Mensagem = "Informe os dados da consulta para atualização!";
+                    serviceResponse.Sucesso = false;
+                }
+                _context.Consultas.Update(consulta);
+                await _context.SaveChangesAsync();
+                serviceResponse.Dados = _context.Consultas.ToList();
             } catch (Exception ex)
             {
                 serviceResponse.Mensagem = ex.Message;
