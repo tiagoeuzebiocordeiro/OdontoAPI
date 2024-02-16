@@ -1,5 +1,7 @@
-﻿using OdontoAPI.DataContext;
+﻿using Microsoft.EntityFrameworkCore;
+using OdontoAPI.DataContext;
 using OdontoAPI.Models;
+using System.Linq.Expressions;
 
 namespace OdontoAPI.Services.PacienteService
 {
@@ -11,14 +13,49 @@ namespace OdontoAPI.Services.PacienteService
             _context = context;
         }
 
-        public Task<ServiceResponse<List<PacienteModel>>> CreatePaciente(PacienteModel paciente)
+        public async Task<ServiceResponse<List<PacienteModel>>> CreatePaciente(PacienteModel paciente)
         {
-            throw new NotImplementedException();
+            ServiceResponse<List<PacienteModel>> serviceResponse = new ServiceResponse<List<PacienteModel>>();
+            try
+            {
+                if (paciente == null)
+                {
+                    serviceResponse.Dados = null;
+                    serviceResponse.Mensagem = "Informe os dados do Paciente!";
+                    serviceResponse.Sucesso = false;
+                    return serviceResponse;
+                }
+                _context.Add(paciente);
+                await _context.SaveChangesAsync();
+                serviceResponse.Dados = _context.Pacientes.ToList();
+            } catch (Exception ex)
+            {
+                serviceResponse.Mensagem = ex.Message;
+                serviceResponse.Sucesso = false;
+            }
+            return serviceResponse;
         }
 
-        public Task<ServiceResponse<List<PacienteModel>>> DeleteFuncionario(short id)
+        public async Task<ServiceResponse<List<PacienteModel>>> DeletePaciente(short id)
         {
-            throw new NotImplementedException();
+            ServiceResponse<List<PacienteModel>> serviceResponse = new ServiceResponse<List<PacienteModel>>();
+            try
+            {
+                PacienteModel paciente = _context.Pacientes.FirstOrDefault(x => x.Id == id);
+                if (paciente == null)
+                {
+                    serviceResponse.Mensagem = "Não foi possível encontrar um paciente com o Id informado.";
+                    serviceResponse.Sucesso = false;
+                }
+                _context.Pacientes.Remove(paciente);
+                await _context.SaveChangesAsync();
+                serviceResponse.Dados = _context.Pacientes.ToList();
+            } catch (Exception ex)
+            {
+                serviceResponse.Mensagem = ex.Message;
+                serviceResponse.Sucesso = false;
+            }
+            return serviceResponse;
         }
 
         public async Task<ServiceResponse<PacienteModel>> GetPacienteById(short id)
@@ -60,14 +97,50 @@ namespace OdontoAPI.Services.PacienteService
             return serviceResponse;
         }
 
-        public Task<ServiceResponse<List<PacienteModel>>> InativaStatusPaciente(short id)
+        public async Task<ServiceResponse<List<PacienteModel>>> InativaStatusPaciente(short id)
         {
-            throw new NotImplementedException();
+            ServiceResponse<List<PacienteModel>> serviceResponse = new ServiceResponse<List<PacienteModel>>();
+            try
+            {
+                PacienteModel paciente = _context.Pacientes.FirstOrDefault(x => x.Id == id);
+                if (paciente == null)
+                {
+                    serviceResponse.Dados = null;
+                    serviceResponse.Mensagem = "Paciente não localizado com o Id informado!";
+                    serviceResponse.Sucesso = false;
+                }
+                _context.Pacientes.Update(paciente);
+                await _context.SaveChangesAsync();
+                serviceResponse.Dados = _context.Pacientes.ToList();
+            } catch (Exception ex)
+            {
+                serviceResponse.Mensagem= ex.Message;
+                serviceResponse.Sucesso = false;
+            }
+            return serviceResponse;
         }
 
-        public Task<ServiceResponse<List<PacienteModel>>> UpdateFuncionario(PacienteModel pacienteEditado)
+        public async Task<ServiceResponse<List<PacienteModel>>> UpdatePaciente(PacienteModel pacienteEditado)
         {
-            throw new NotImplementedException();
+            ServiceResponse<List<PacienteModel>> serviceResponse = new ServiceResponse<List<PacienteModel>>();
+            try
+            {
+                PacienteModel paciente = _context.Pacientes.AsNoTracking().FirstOrDefault(x => x.Id == pacienteEditado.Id);
+                if (paciente == null)
+                {
+                    serviceResponse.Dados = null;
+                    serviceResponse.Mensagem = "Paciente não foi encontrado com o Id informado!";
+                    serviceResponse.Sucesso = false;
+                }
+                _context.Pacientes.Update(paciente);
+                await _context.SaveChangesAsync();
+                serviceResponse.Dados = _context.Pacientes.ToList();
+            } catch (Exception ex)
+            {
+                serviceResponse.Mensagem = ex.Message;
+                serviceResponse.Sucesso = false;
+            }
+            return serviceResponse;
         }
     }
 }

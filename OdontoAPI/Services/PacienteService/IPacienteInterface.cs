@@ -8,8 +8,8 @@ namespace OdontoAPI.Services.PacienteService
         Task<ServiceResponse<List<PacienteModel>>> CreatePaciente(PacienteModel paciente);
         Task<ServiceResponse<PacienteModel>> GetPacienteById(short id);
         Task<ServiceResponse<List<PacienteModel>>> InativaStatusPaciente(short id);
-        Task<ServiceResponse<List<PacienteModel>>> UpdateFuncionario(PacienteModel pacienteEditado);
-        Task<ServiceResponse<List<PacienteModel>>> DeleteFuncionario(short id);
+        Task<ServiceResponse<List<PacienteModel>>> UpdatePaciente(PacienteModel pacienteEditado);
+        Task<ServiceResponse<List<PacienteModel>>> DeletePaciente(short id);
 
     }
 }

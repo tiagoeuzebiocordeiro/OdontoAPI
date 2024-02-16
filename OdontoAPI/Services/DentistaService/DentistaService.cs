@@ -47,7 +47,7 @@ namespace OdontoAPI.Services.DentistaService
                     serviceResponse.Mensagem = "Não foi possível encontrar um dentista com o Id informado.";
                     serviceResponse.Sucesso = false;
                 }
-                _context.Remove(dentista);
+                _context.Dentistas.Remove(dentista);
                 await _context.SaveChangesAsync();
                 serviceResponse.Dados = _context.Dentistas.ToList();
             }catch(Exception ex)
@@ -136,7 +136,7 @@ namespace OdontoAPI.Services.DentistaService
                 if (dentista == null)
                 {
                     serviceResponse.Dados = null;
-                    serviceResponse.Mensagem = "Usuário não foi encontrado com o Id informado!";
+                    serviceResponse.Mensagem = "Dentista não foi encontrado com o Id informado!";
                     serviceResponse.Sucesso = false;
                 }
                 _context.Dentistas.Update(dentista);
