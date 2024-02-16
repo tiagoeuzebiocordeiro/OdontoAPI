@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using OdontoAPI.DataContext;
 using OdontoAPI.Services.DentistaService;
+using OdontoAPI.Services.PacienteService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+// Essas anotações de AddScoped é para entender que toda vez que eu fazer referencia ao Interface, na vdd estou me referindo ao Service
 builder.Services.AddScoped<IDentistaInterface, DentistaService>();
+builder.Services.AddScoped<IPacienteInterface, PacienteService>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
