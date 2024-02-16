@@ -20,5 +20,23 @@ namespace OdontoAPI.Controllers
         {
             return Ok(await _dentistaInterface.GetDentistas());
         }
+
+        [HttpPost]
+        public async Task<ActionResult<ServiceResponse<List<DentistaModel>>>> CreateDentista(DentistaModel dentista)
+        {
+            return Ok(await _dentistaInterface.CreateDentista(dentista));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ServiceResponse<DentistaModel>>> GetDentistaById(short id)
+        {
+            return Ok(await _dentistaInterface.GetDentistaById(id));
+        }
+
+        [HttpPut("inativaStatusDentista/{id}")]
+        public async Task<ActionResult<ServiceResponse<List<DentistaModel>>>> InativaStatusDentista (short id)
+        {
+            return Ok(await _dentistaInterface.InativaDentista(id));
+        }
     }
 }

@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace OdontoAPI.Models
 {
     public class DentistaModel
     {
         [Key]
+       
         public short Id { get; set; }
 
         [Required(ErrorMessage ="O nome do dentista deve ser informado.",AllowEmptyStrings =false)]
@@ -33,14 +35,12 @@ namespace OdontoAPI.Models
         public string Cpf { get; set; }
 
         [Required(ErrorMessage ="O e-mail do dentista deve ser informado.", AllowEmptyStrings =false)]
-        [RegularExpression(".+\\@.+\\..+", ErrorMessage = "Informe um e-mail válido.")]
         public string Email { get; set; }
 
         [Required(ErrorMessage ="A data de nascimento do dentista deve ser informada.")]
         public DateTime DataNascimento { get; set; }
 
         [Required(ErrorMessage ="O sexo do(a) dentista deve ser informado.", AllowEmptyStrings =false)]
-        [StringLength(1)] // Verificar se funciona para char
         public char Sexo { get; set; }
 
         [Required(ErrorMessage ="O turno do(a) dentista deve ser informado.",AllowEmptyStrings =false)]
@@ -50,7 +50,9 @@ namespace OdontoAPI.Models
         [Required]
         public bool Status { get; set; } // Ativo ou Inativo
 
+       
         public DateTime DataCadastro { get; set; } // No meu banco de dados, existe uma trigger para isso, portanto, não irei coloca-los com valor inicial, como Date Now.
+        
         public DateTime DataModificacao { get; set; } // No meu banco de dados, existe uma trigger para isso, portanto, não irei coloca-los com valor inicial, como Date Now.
 
     }
