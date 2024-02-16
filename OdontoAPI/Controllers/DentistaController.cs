@@ -38,5 +38,17 @@ namespace OdontoAPI.Controllers
         {
             return Ok(await _dentistaInterface.InativaDentista(id));
         }
+
+        [HttpPut]
+        public async Task<ActionResult<ServiceResponse<List<DentistaModel>>>> UpdateDentista(DentistaModel dentistaEditado)
+        {
+            return Ok(await _dentistaInterface.UpdateDentista(dentistaEditado));
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ServiceResponse<List<DentistaModel>>>> DeleteDentista(short id)
+        {
+            return Ok(await _dentistaInterface.DeleteDentista(id));
+        }
     }
 }

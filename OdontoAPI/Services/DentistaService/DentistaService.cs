@@ -1,4 +1,5 @@
-﻿using OdontoAPI.DataContext;
+﻿using Microsoft.EntityFrameworkCore;
+using OdontoAPI.DataContext;
 using OdontoAPI.Models;
 
 namespace OdontoAPI.Services.DentistaService
@@ -35,9 +36,26 @@ namespace OdontoAPI.Services.DentistaService
             return serviceResponse;
         }
 
-        public Task<ServiceResponse<List<DentistaModel>>> DeleteDentista(short id)
+        public async Task<ServiceResponse<List<DentistaModel>>> DeleteDentista(short id)
         {
-            throw new NotImplementedException();
+            ServiceResponse<List<DentistaModel>> serviceResponse = new ServiceResponse<List<DentistaModel>>();
+            try
+            {
+                DentistaModel dentista = _context.Dentistas.FirstOrDefault(x => x.Id == id);
+                if (dentista == null)
+                {
+                    serviceResponse.Mensagem = "Não foi possível encontrar um dentista com o Id informado.";
+                    serviceResponse.Sucesso = false;
+                }
+                _context.Remove(dentista);
+                await _context.SaveChangesAsync();
+                serviceResponse.Dados = _context.Dentistas.ToList();
+            }catch(Exception ex)
+            {
+                serviceResponse.Mensagem = ex.Message;
+                serviceResponse.Sucesso = false;
+            }
+            return serviceResponse;
         }
 
         public async Task<ServiceResponse<DentistaModel>> GetDentistaById(short id)
@@ -109,9 +127,27 @@ namespace OdontoAPI.Services.DentistaService
 
         }
 
-        public Task<ServiceResponse<List<DentistaModel>>> UpdateDentista(DentistaModel dentistaEditado)
+        public async Task<ServiceResponse<List<DentistaModel>>> UpdateDentista(DentistaModel dentistaEditado)
         {
-            throw new NotImplementedException();
+            ServiceResponse<List<DentistaModel>> serviceResponse = new ServiceResponse<List<DentistaModel>>();
+            try
+            {
+                DentistaModel dentista = _context.Dentistas.AsNoTracking().FirstOrDefault(x => x.Id == dentistaEditado.Id);
+                if (dentista == null)
+                {
+                    serviceResponse.Dados = null;
+                    serviceResponse.Mensagem = "Usuário não foi encontrado com o Id informado!";
+                    serviceResponse.Sucesso = false;
+                }
+                _context.Dentistas.Update(dentista);
+                await _context.SaveChangesAsync();
+                serviceResponse.Dados = _context.Dentistas.ToList();
+            } catch (Exception e)
+            {
+                serviceResponse.Mensagem = e.Message;
+                serviceResponse.Sucesso = false;
+            }
+            return serviceResponse;
         }
     }
 }
