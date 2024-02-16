@@ -144,7 +144,7 @@ namespace OdontoAPI.Services.DentistaService
                     serviceResponse.Mensagem = "Dentista não foi encontrado com o Id informado!";
                     serviceResponse.Sucesso = false;
                 }
-                _context.Dentistas.Update(dentista);
+                _context.Dentistas.Update(dentistaEditado);
                 await _context.SaveChangesAsync();
                 serviceResponse.Dados = _context.Dentistas.ToList();
             } catch (Exception e)
