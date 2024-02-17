@@ -115,7 +115,7 @@ namespace OdontoAPI.Services.ConsultaService
                     serviceResponse.Mensagem = "Informe os dados da consulta para atualização!";
                     serviceResponse.Sucesso = false;
                 }
-                _context.Consultas.Update(consulta);
+                _context.Consultas.Update(consultaEditada);
                 await _context.SaveChangesAsync();
                 serviceResponse.Dados = _context.Consultas.ToList();
             } catch (Exception ex)
