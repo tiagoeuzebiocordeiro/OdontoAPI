@@ -1,6 +1,5 @@
 # OdontoAPI
 
-![Documentação da API]
 Versão da API: v1.0
 Esse projeto consite em uma API RESTful para um gerenciamento de clínicas odontológicas. Cadastro, Gerenciamento, Edição e Deleção de dentistas, pacientes e consultas.
 
